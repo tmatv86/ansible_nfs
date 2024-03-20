@@ -1,0 +1,33 @@
+ - name: autofs install packages
+   package:
+     name: "{{ item }}"
+     state: present
+   with_items: "{{ autofs_mount_packages }}"
+ 
+ - name: autofs systemd start
+   service:
+     name: autofs
+     state: started
+     enabled: yes
+   with_items:
+     - autofs
+ 
+ - name: Modify auto.master
+   linefile:
+     path: /etc/auto.master
+     line: "/home auto.home"
+     state: present
+     backup: yes
+ 
+ - name: auto.home mapping
+   linefile:
+     path: /etc/auto.home
+     line: "/mnt/shared_nfs -rw,sync 192.168.1.3:/home/nfs_share"
+     state: present
+     backup: yes
+ 
+ - name: check autofs is restarted/reloaded:
+   systemd:
+     name: autofs
+     state: reloaded
+   
