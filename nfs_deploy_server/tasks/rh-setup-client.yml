@@ -1,0 +1,20 @@
+ - name: install nfs client
+   yum:
+     name: nfs-utils
+     state: present
+
+ - name Check if folder exists
+    file:
+      path: /mnt/shared_nfs
+      state: directory
+      owner: root
+      group: root
+      mode: 0664
+
+ - name: configure nfs client
+   mount:
+    src 192.168.2.3:/nfs_share
+    path: /mnt/shared_nfs
+    fstype: nfs
+    state: mounted
+    opts: "defaults, _netdev"
