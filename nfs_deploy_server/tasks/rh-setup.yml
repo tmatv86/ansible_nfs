@@ -1,17 +1,23 @@
 ---
 # tasks file for nfs_deploy_server
 ---
-- name: install nfs server
-  yum:
-    name: nfs-utils
-    state: present
-- name: configure NFS server
-    - name: configure nfs server  
+ - name: install nfs server
+   yum:
+     name: nfs-utils
+     state: present
+ 
+ - name: configure NFS server
     - include_tasks: configure-nfs.yml
 
-- name: ensure nfs service is enabled and running
-  service:
-    name: nfs-server
-    state: started
-    enabled: yes
+ - name: ensure nfs service is enabled and running
+   service:
+     name: nfs-server
+     state: started
+     enabled: yes
+
+ - name: Restart and reload exports:
+   command: systemctl restart nfs-server; exportfs -a
+ 
+ - name: Reload firewalld
+   command: firewall-cmd --reload
 #  package: name=nfs-utils state=present

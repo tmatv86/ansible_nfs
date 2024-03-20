@@ -19,8 +19,13 @@
 	owner: root
 	group: root
 	mode: 0644
+    - name: change nfs config
+      file:
+	path: /etc/exports
+      register: nfs_conf
 
-    - name: Apply if config was changed:
-	command: systemctl restart nfs-server; exportfs -a
-    - name: Reload firewalld
-	command: firewall-cmd --reload
+    - name: restart service if conf changed
+      service:
+        name: nfs-server
+        state: restarted
+      when: nfs_conf.changed

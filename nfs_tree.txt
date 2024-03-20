@@ -1,0 +1,27 @@
+.
+├── README.md
+├── ansible.cfg
+├── ansible.cfg_bak
+├── defaults
+│   └── main.yml
+├── files
+├── handlers
+│   └── main.yml
+├── meta
+│   └── main.yml
+├── tasks
+│   ├── configure-autofs.yml
+│   ├── configure-nfs.yml
+│   ├── main.yml
+│   ├── rh-setup-client.yml
+│   └── rh-setup.yml
+├── templates
+│   └── exports.j2
+├── tests
+│   ├── ansible.cfg
+│   ├── inventory
+│   └── test.yml
+└── vars
+    └── main.yml
+
+
