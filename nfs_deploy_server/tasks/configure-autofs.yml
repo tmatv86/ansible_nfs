@@ -1,6 +1,6 @@
  - name: autofs install packages
-   package:
-     name: "{{ item }}"
+   yum:
+     name: autofs
      state: present
    with_items: "{{ autofs_mount_packages }}"
  
