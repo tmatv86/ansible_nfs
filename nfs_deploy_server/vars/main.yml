@@ -1,0 +1,20 @@
+---
+# vars file for nfs_deploy_server
+- name: check if share directory present
+  file: 
+    path: "/home/nfs_share""
+    state: directory
+    mode: '0644'
+
+- name: "Configure exports"
+  template:
+    src: "exports.j2"
+    dest: "/etc/exports"
+    owner: "root"
+    group: "root"
+    mode: "0644"
+
+- name: start nfs server
+  service:
+    name: nfs-server
+    state: started

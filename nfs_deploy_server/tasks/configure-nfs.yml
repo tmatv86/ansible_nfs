@@ -1,0 +1,26 @@
+- name: configure
+  hosts: 192.168.2.3
+  tasks:
+    - name: make sure folder exists
+      file:
+        path: /home/nfs_share
+        mode: 0755
+        state: directory
+	owner: root
+	group: root
+    - name: enable rpcbind (optional)
+      service:
+	name: rpcbind
+	enabled: yes
+    - name: Export file
+      template:
+	src: ./templates/exports.j2
+	dest: /etc/exports
+	owner: root
+	group: root
+	mode: 0644
+
+    - name: Apply if config was changed:
+	command: systemctl restart nfs-server; exportfs -a
+    - name: Reload firewalld
+	command: firewall-cmd --reload
